@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import axios from 'axios';
+import { MDBDataTable } from 'mdbreact';
 
 class App extends Component {
 
@@ -12,36 +13,48 @@ class App extends Component {
   componentDidMount() {
     axios.get(`http://localhost:8081`)
     .then(response => {
-      this.setState({details: response})
-    })
-  }
+      console.log(response);
+      this.setState({details: {
+        columns: [
+        {
+          label: 'First Name',
+          field: 'firstName',
+          width: 150,
+          sort: "asc"
+        },
+        {
+          label: 'Last Name',
+          field: 'lastName',
+          width: 270,
+          sort: "asc"
+        },
+        {
+          label: 'Country',
+          field: 'country',
+          width: 200,
+          sort: "asc"
+        },
+        {
+          label: 'Age',
+          field: 'age',
+          sort: 'asc',
+          width: 100,
+          sort: "asc"
+        },
+      ],
+      rows: response.data.data,
+    }});
+    
+  })
+}
 
   render () {
-    let personDetails = null;
-    if(this.state.details) {
-      personDetails = this.state.details.data.data.map(current => {
-        return <tr key={current.firstName}>
-          <td>{current.firstName}</td>
-          <td>{current.lastName}</td>
-          <td>{current.country}</td>
-          <td>{current.age}</td>
-        </tr>
-      })
-    }
+    
     return (
-      this.state.details? <table>
-        <thead>
-          <tr>
-            <td>First Name</td>
-            <td>Last Name</td>
-            <td>Country</td>
-            <td>Age</td>
-          </tr>
-        </thead>
-        <tbody>
-            {personDetails}
-        </tbody>
-      </table>: null
+      this.state.details? <MDBDataTable hover 
+        striped 
+        bordered
+        data={this.state.details} />: null
     )
   }
 }
