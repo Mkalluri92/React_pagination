@@ -38,8 +38,7 @@ class App extends Component {
           label: 'Age',
           field: 'age',
           sort: 'asc',
-          width: 100,
-          sort: "asc"
+          width: 100
         },
       ],
       rows: response.data.data,
@@ -54,6 +53,8 @@ class App extends Component {
       this.state.details? <MDBDataTable hover 
         striped 
         bordered
+        entriesOptions={[5, 20, 25]}
+        entries = {5}
         data={this.state.details} />: null
     )
   }
